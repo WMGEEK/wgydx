@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <script src="./js/jquery.js"></script>
+    <script src="./js/turn.js"></script>
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/turn.js/3/turn.js"></script> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<style>
+    @charset "UTF-8";
+
+    * {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        line-height: 1;
+        text-decoration: none;
+        box-sizing: border-box;
+    }
+
+    /* @font-face {
+        font-family: "STKaiti";
+        src: url("./font/STKaiti.ttf") format("truetype");
+    } */
+
+    /* @font-face {
+        font-family: "宋体-简";
+        src: url("./font/经典宋体简.ttf") format("truetype");
+    } */
+
+    .app {
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-image: url("./img/bg.png");
+        background-size: cover;
+        background-position-x: right;
+    }
+
+    .titleBox-old {
+        width: 61.07vw;
+        margin-left: 7.924vw;
+        margin-top: 10vw;
+        position: relative;
+    }
+
+    .titleBox {
+        /* transform: scale(.7); */
+        transform-origin: left bottom;
+        /* width: 703px; */
+        width: 56.933vw;
+        position: relative;
+        margin-top: 7.5vw;
+        margin-left: 6.93vw
+    }
+
+    .titleBox.en {
+        margin-top: 4.8vw;
+        width: 69.3333vw;
+    }
+
+    .titleBox .title {
+        font-size: 8.533vw;
+        font-family: "宋体-简";
+        line-height: 11.333vw;
+        text-align: left;
+        background: linear-gradient(80deg, #fdf4bf, #ffd584);
+        text-shadow: 0.267vw 0.267vw 2.667vw rgba(0, 0, 0, 0.8);
+        color: #ffd584;
+    }
+
+    .titleBox img {
+        width: 100%;
+        /* height: 100%; */
+    }
+
+    .titleBox .title:nth-of-type(1) {
+        position: absolute;
+        color: transparent;
+        /* 隐藏原始颜色，使渐变颜色生效 */
+        z-index: 1;
+        text-shadow: none;
+    }
+
+    .bookBox {
+        width: 100.667vw;
+        height: 147.333vw;
+        background-image: url("./img/bg2.png");
+        background-size: 100% 100%;
+        margin-top: 2.4vw;
+        position: relative;
+        z-index: 2;
+    }
+
+    .bookBox .icon2 {
+        position: absolute;
+        top: 13.8vw;
+        left: -7.3vw;
+        width: 16.533vw;
+    }
+
+    @keyframes playing {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .icon3 {
+        width: 7.7vw;
+        height: 7.7vw;
+        position: absolute;
+        right: 6.4vw;
+        top: 22.533vw;
+        z-index: 20;
+    }
+
+    .icon3.play {
+        animation: playing 2s linear infinite;
+    }
+
+    .bookBox .pageBox {
+        width: 84.267vw;
+        height: 122.133vw;
+        padding-top: 1.333vw;
+        padding-left: 8vw;
+        box-sizing: content-box;
+    }
+
+    .bookBox .pageBox .book {
+        width: 84.267vw;
+        height: 122.133vw;
+        transform: translateX(-50%);
+    }
+
+    .bookBox .pageBox .page {
+        width: 84.267vw;
+        height: 122.133vw;
+        background-image: url("./img/icon1.png");
+        background-size: 100% 100%;
+        border-radius: 1.333vw;
+        /*padding: 5.733vw 7.733vw 6.667vw;*/
+        background-color: #fff;
+        position: relative;
+        overflow: hidden;
+
+    }
+
+    .bookBox .pageBox .page .inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+    }
+
+    .bookBox .pageBox .page .inner {
+        background-size: 100% 100%;
+        padding: 5.733vw 7vw 6.667vw;
+    }
+
+    .icon4 {
+        position: absolute;
+        width: 6vw;
+        right: 5.8666vw;
+        bottom: 0.5333vw;
+    }
+
+    .icon4_big {
+        position: absolute;
+        width: 9.87vw;
+        right: 5.8666vw;
+        bottom: 0.5333vw;
+    }
+
+
+    .bookBox .pageBox .page .pageTitle {
+        line-height: 10.8vw;
+        text-decoration: underline;
+        font-size: 3.705vw;
+        font-weight: normal;
+        font-family: "STKaiti";
+        color: #222222;
+        text-decoration-thickness: 0.133vw;
+        text-underline-offset: 1vw;
+    }
+
+    .bookBox .pageBox .page .p {
+        line-height: 6.267vw;
+        font-size: 3.467vw;
+        font-family: "STKaiti";
+        /* text-indent: 2em; */
+        text-decoration: underline;
+        color: #5d4d3a;
+        text-decoration-thickness: 0.133vw;
+        text-underline-offset: 1vw;
+        position: relative;
+        text-align: justify;
+    }
+
+    .bookBox .pageBox .page .p:not(.indent0):before {
+        content: '开头';
+        width: 2em;
+        height: 0.133vw;
+        display: inline-block;
+        text-decoration: underline;
+        color: transparent;
+        text-decoration-color: #5d4d3a;
+        text-decoration-thickness: 0.133vw;
+        text-underline-offset: 1vw;
+        position: relative;
+    }
+
+    .img {
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+
+    .back {
+        width: 40vw;
+        position: absolute;
+        bottom: 35vw;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 999999;
+    }
+
+    .select {
+        position: absolute;
+        top: 23.5vw;
+        right: 16.8vw;
+        width: 15.73vw;
+    }
+
+    .icon5 {
+        position: absolute;
+        top: 5.8vw;
+        right: 0vw;
+        width: 17.33vw;
+    }
+</style>
+
+<body>
+
+    <div class="app">
+        <audio id="audio" src="./audio.mp3" autoplay="autoplay"></audio>
+        <div class="titleBox">
+            <img class="titleImg" src="./img/title.png?v=1.0" alt="">
+        </div>
+        <a class="link" href="/?/en"><img class="select" src="./img/zh.png" alt=""></a>
+        <img class="icon5" src="./img/icon5.png" alt="">
+        <img class="icon3" src="./img/icon3.png" alt="">
+        <div class="bookBox">
+            <img class="icon2" src="./img/icon2.png" alt="">
+            <img class="back" src="./img/back.png" alt="">
+            <div class="pageBox">
+                <div class="book ch">
+                    <div class="page">
+                        <img class="img" src="./img/pages/1.jpg?v=1.0" alt="">
+                        <img class="icon4 icon4_txt icon4_big" src="./img/icon4.png" alt="">
+                    </div>
+                    <div class="page"></div>
+                    <div class="page">
+                        <img class="img" src="./img/pages/2.jpg?v=1.0" alt="">
+                        <img class="icon4" src="./img/s2.png" alt="">
+                    </div>
+                    <div class="page"></div>
+                    <div class="page">
+                        <img class="img" src="./img/pages/3.jpg?v=1.0" alt="">
+                        <img class="icon4" src="./img/s2.png" alt="">
+                    </div>
+                    <div class="page"></div>
+                    <div class="page">
+                        <img class="img" src="./img/pages/4.jpg?v=1.0" alt="">
+                        <img class="icon4" src="./img/s2.png" alt="">
+                    </div>
+                    <div class="page"></div>
+                    <div class="page">
+                        <img class="img" src="./img/pages/5.jpg?v=1.0" alt="">
+                        <img class="icon4" src="./img/s2.png" alt="">
+                    </div>
+                    <div class="page"></div>
+                    <div class="page">
+                        <img class="img" src="./img/pages/6.jpg?v=1.0" alt="">
+                        <img class="icon4" src="./img/s2.png" alt="">
+                    </div>
+                </div>
+                <div class="book en">
+                    <div class="page">
+                        <img class="img" src="./img/en/01.jpg?v=1.0" alt="">
+                        <img class="icon4 icon4_big" src="./img/s2.png" alt="">
+                    </div>
+                    <div class="page"></div>
+                    <div class="page">
+                        <img class="img" src="./img/en/02.jpg?v=1.0" alt="">
+                        <img class="icon4" src="./img/s2.png" alt="">
+                    </div>
+                    <div class="page"></div>
+                    <div class="page">
+                        <img class="img" src="./img/en/03.jpg?v=1.0" alt="">
+                        <img class="icon4" src="./img/s2.png" alt="">
+                    </div>
+                    <div class="page"></div>
+                    <div class="page">
+                        <img class="img" src="./img/en/04.jpg?v=1.0" alt="">
+                        <img class="icon4" src="./img/s2.png" alt="">
+                    </div>
+                    <div class="page"></div>
+                    <div class="page">
+                        <img class="img" src="./img/en/05.jpg?v=1.0" alt="">
+                        <img class="icon4" src="./img/s2.png" alt="">
+                    </div>
+                    <div class="page"></div>
+                    <div class="page">
+                        <img class="img" src="./img/en/06.jpg?v=1.0" alt="">
+                        <img class="icon4" src="./img/s2.png" alt="">
+                    </div>
+                    <div class="page"></div>
+                    <div class="page">
+                        <img class="img" src="./img/en/07.jpg?v=1.0" alt="">
+                        <img class="icon4" src="./img/s2.png" alt="">
+                    </div>
+                    <div class="page"></div>
+                    <div class="page">
+                        <img class="img" src="./img/en/08.jpg?v=1.0" alt="">
+                        <img class="icon4" src="./img/s2.png" alt="">
+                    </div>
+                    <div class="page"></div>
+                    <div class="page">
+                        <img class="img" src="./img/en/09.jpg?v=1.0" alt="">
+                        <img class="icon4" src="./img/s2.png" alt="">
+                    </div>
+                    <div class="page"></div>
+                    <div class="page">
+                        <img class="img" src="./img/en/10.jpg?v=1.0" alt="">
+                        <img class="icon4" src="./img/s2.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    if (location.href.includes("en")) {
+        $(".ch").remove()
+        $(".link").attr("href", "/?/zh")
+        $("#audio").attr("src", "./a.MP3")
+        $(".select").attr("src", "./img/en.png")
+        $(".titleImg").attr("src", "./img/titleen.png?v=1.0")
+        $(".titleBox").addClass("en")
+        $(".back").attr("src", "./img/back2.png")
+        $(".icon4_txt").attr("src", "./img/s2.png")
+    } else {
+        $(".en").remove()
+    }
+    $(".p").each((index, item) => {
+        // console.log($(item).text().html())
+        // $(item).html($(item).text().html().replace(/\s/g, ""))
+    })
+    function audioAutoPlay(id) {
+        var audio = document.getElementById(id)
+        audio.play()
+        document.addEventListener(
+            'WeixinJSBridgeReady',
+            function () {
+                audio.play()
+            },
+            false
+        )
+
+    }
+
+    $(document).ready(function () {
+
+        const book_w = $(".book").width() * 2;
+        const book_h = $(".book").height();
+
+        // 销毁已存在的实例，避免重复初始化
+        if ($('.book').data('turn')) {
+            $('.book').turn('destroy');
+        }
+
+        if (isNaN(book_w) || isNaN(book_h)) {
+            console.error("书籍宽度或高度计算错误");
+            return;
+        }
+
+        $('.book').turn({
+            acceleration: false, // 是否启动硬件加速 如果为触摸设备必须为true
+            // pages: 8, // 页码总数
+            elevation: 0, // 这个忘记是什么了
+            height: book_h, // 高度 单位 px
+            width: book_w,
+            // display: "single",
+            duration: 500,
+            gradients: true, // 是否显示翻页阴影效果
+            autoCenter: true,
+        });
+        // let startX = 0
+        // $('.book').on("touchstart",(e) =>{
+        //     console.log(e)
+        // })
+        // 启用翻页交互
+        let arr = [64, 129, 196.058799, 256.274701, 318.340295]
+        $('.book').turn("disable", false);
+        $(".back").on("touchstart", () => {
+            arr = [64, 129, 196.058799, 256.274701, 318.340295]
+            $('.book').turn('page', 1);
+        })
+        let play = true
+        $(".icon3").click(function () {
+            if (audio.paused) audio.play()
+            else audio.pause()
+        })
+        // const audio = new Audio("./audio.MP3")
+        const audio = document.getElementById("audio");
+        audio.onplay = () => {
+            $(".icon3").addClass("play")
+        }
+        audio.onpause = () => {
+            $(".icon3").removeClass("play")
+        }
+
+        // audio.ontimeupdate = (e) => {
+        //     if (audio.currentTime >= arr[0]) {
+        //         arr.shift()
+        //         var currentPage = $('.book').turn('page');
+        //         $('.book').turn('page', currentPage + 1);
+        //     }
+        // }
+
+        audioAutoPlay("audio");
+
+    })
+
+    setInterval(() => {
+        var currentPage = $('.book').turn('page');
+        if (currentPage >= (location.href.includes("en") ? 18 : 10)) {
+            $(".back").show(500)
+        } else {
+            $(".back").hide()
+        }
+
+    }, 500)
+    $(".back").hide()
+
+</script>
+
+ <script src="//res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+    <script>
+         
+    // 微信分享
+	                let url = location.href.split("#")[0];
+	               fetch('token.php', {
+	                    method: 'POST',
+	                    headers: {
+	                        'Content-Type': 'application/json'
+	                    },
+	                    body: JSON.stringify({ url: url })
+	                })
+	                .then(response => response.json())
+	                .then(result => {
+	                    console.log(result);
+	                    wx.config({
+	                        appId: result.appId,
+	                        nonceStr: result.nonceStr,
+	                        signature: result.signature,
+	                        timestamp: result.timestamp,
+	                        debug: false,
+	                        jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData']
+	                    });
+	                    
+	                    wxload()
+	                })
+	                .catch(error => {
+	                    console.error('Error:', error);
+	                });
+	                                     
+	                
+	                function wxload(){     
+	                      
+	                    wx.ready(function() {
+	                        
+	                 var share_title = "高扬外特精通，建设教育强国——致全校党员干部的一封信";
+                    if (location.href.includes("en"))
+                        share_title = "Uphold BFSU's Characteristics to Sustain Educationally Powerful Country —— A Letter to All CPC Members and Officials at BFSU"
+                    document.title = share_title
+                    var share_desc = "金秋时节，硕果累累。11月份以来，按照教育部党组统一部署，学校全体处级以上领导干部参加了全国教育大会精神集中学习培训。同志们一致认为，在第40个教师节之际，党中央隆重召开全国教育大会，奏响了教育强国的时代强音，体现了以习近平同志为核心的党中央对教育事业的高度重视和殷切期望，进一步明确了教育的政治属性、人民属性、战略属性，为进一步落实立德树人根本任务，深化教育领域综合改革，建设具有强大影响力的世界重要教育中心指明了方向。";
+                    share_desc = ""
+                    var share_link = location.href;
+                    var share_imgUrl = "https://h5.wming-blog.top/img/share.jpg";
+	                          
+	                                         var shareJsonData = {
+	                                             title: share_title, // 分享标题
+	                                             desc: share_desc, // 分享描述
+	                                             link: location.href.split("#")[0], // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+	                                             imgUrl: share_imgUrl// 分享图标
+	                                         }
+	                                         console.log(shareJsonData);
+	                               
+	                               
+	                                         //“分享给朋友”及“分享到QQ”按钮的分享内容
+	                                         wx.updateAppMessageShareData({
+	                                             title: shareJsonData.title, 
+	                                             desc: shareJsonData.desc,
+	                                             link: shareJsonData.link,
+	                                             imgUrl: shareJsonData.imgUrl,
+	                                             success: function () {}
+	                                         });
+	                               
+	                                         //“分享到朋友圈”及“分享到QQ空间”按钮的分享内容
+	                                         wx.updateTimelineShareData({
+	                                             title: shareJsonData.title,
+	                                             link: shareJsonData.link,
+	                                             imgUrl: shareJsonData.imgUrl,
+	                                             success: function () {}
+	                                        }); 
+	                                 
+	                            }); 
+	                }
+    </script>
+
+</html>
